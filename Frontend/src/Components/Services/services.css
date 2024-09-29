@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    /* background-color: #f5f5f5; */
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.description {
+    font-size: 1.2rem;
+    margin-bottom: 4rem;
+    color: #555;
+    text-align: center;
+    width: 80%;
+}
+
+.services-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Added to center the services within the container */
+    gap: 2rem; /* Added to provide spacing between service items */
+}
+
+.service {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 150px;
+}
+
+.icon {
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.service-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+color: #333;
+}
