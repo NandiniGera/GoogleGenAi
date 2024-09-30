@@ -1,9 +1,19 @@
 from chunks import TextToChunks
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-import getpass
+# import getpass
 import os
 from langchain_chroma import Chroma
+from dotenv import load_dotenv
 
+load_dotenv()
+
+# Access the API key
+api_key = os.getenv('GOOGLE_API_KEY')
+
+# if "GOOGLE_API_KEY" not in os.environ:
+#     os.environ["GOOGLE_API_KEY"] = getpass.getpass("api_key")
+
+embeddings = GoogleGenerativeAIEmbeddings(api_key=api_key,model="models/embedding-001")
 
 
 
@@ -23,14 +33,7 @@ chunks2 = chunker2.split_text()
 
 # # print((chunks1[0]))
 
-if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = getpass.getpass("api_key")
 
-
-
-
-
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 vector_store_gita = Chroma(
     collection_name = "1_collection",

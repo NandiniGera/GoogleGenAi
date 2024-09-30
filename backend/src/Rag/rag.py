@@ -1,8 +1,7 @@
 from get_db import get_vector_db
-
-
+from dotenv import load_dotenv
 import os 
-import getpass
+# import getpass
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import create_history_aware_retriever
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -15,10 +14,15 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 
 store = {}
 
-if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = getpass.getpass("api-key")
+load_dotenv()
 
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+# Access the API key
+api_key = os.getenv('GOOGLE_API_KEY')
+
+# if "GOOGLE_API_KEY" not in os.environ:
+#     os.environ["GOOGLE_API_KEY"] = getpass.getpass("api-key")
+
+llm = ChatGoogleGenerativeAI(api_key=api_key,model="gemini-1.5-flash")
 
 
 
@@ -49,7 +53,7 @@ def get_ans(question, session_id: str):
     qa_system_prompt = """You are an mental heath assistant. \
     Use the following pieces of retrieved context to answer the question in an understanding way. \
     If you don't know the answer, try formulating on your own. \
-    Use three sentences maximum and keep the answer concise.\
+    If a concept is found, explain it in detail to the student.\
 
     {context}"""
     
@@ -80,8 +84,8 @@ def get_ans(question, session_id: str):
     
     return conversational_rag_chain
 
-question = "how to stop procrastination"
-session_id = "13"
+question = "how do i stop procastinating and start working ?"
+session_id = "10"
 
 conversational_rag_chain = get_ans(question, session_id)
 

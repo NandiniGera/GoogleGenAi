@@ -138,3 +138,15 @@ dmypy.json
 cython_debug/
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Python
+
+# Ignore chroma_langchain_1_db directory
+/Rag/chroma_langchain_1_db/
+
+# Ignore chroma_langchain_2_db directory
+/Rag/chroma_langchain_2_db/
+
+# Ignore gita.txt file
+/Rag/gita.txt
+
+# Ignore atomic.txt file
+/Rag/atomichabits.txt
