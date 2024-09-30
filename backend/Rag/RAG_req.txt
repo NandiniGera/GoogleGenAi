@@ -1,0 +1,8 @@
+langchain
+langchain-google-genai
+langchain_community
+langchainhub
+langchain-chroma
+bs4
+langchain-text-splitters
+langchain_core
