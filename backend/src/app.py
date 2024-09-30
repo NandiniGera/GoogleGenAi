@@ -10,6 +10,8 @@ from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
 import os
 from summarizer import summarize_session_history
+from chatbot import process_message
+
 
 # Load environment variables
 load_dotenv()
@@ -203,6 +205,37 @@ def add_summary():
         })
 
     return jsonify({"msg": "Summary added successfully", "timestamp": current_timestamp}), 200
+
+
+
+@app.route("/user_chat_response", methods=['POST'])
+def user_chat_response():
+    data = request.json
+    user_email = data.get('email')  # Expecting user email from the request
+    user_query = data.get('user_query') 
+    session_history = data.get('session_history')
+
+    if not user_email or not user_query:
+        return jsonify({"msg": "Email and user_query are required"}), 400
+
+    # Get the current timestamp
+    current_timestamp = datetime.now()
+    existing_summary = summary_collection.find_one({"email": user_email})
+
+    if existing_summary:
+        existing_summaries = existing_summary['summaries']
+    
+        last_entry = existing_summaries[-1]
+        last_entry_date = last_entry['timestamp'].strftime('%Y-%m-%d') 
+        last_entry_with_date = f"{last_entry_date}: {last_entry['summary']}" 
+        history_except_last = [
+            f"{entry['timestamp'].strftime('%Y-%m-%d')}: {entry['summary']}"
+            for entry in existing_summaries[:-1]  
+        ]
+        
+    bot_response = process_message(history_except_last, last_entry_with_date, session_history, user_query)
+    
+    return jsonify({"bot_response": bot_response, "timestamp": current_timestamp}), 200
 
 
 

@@ -31,26 +31,25 @@ def is_serious_concern(message):
     ]
     return any(keyword in message.lower() for keyword in serious_keywords)
 
-def process_message(last_15_days_history, current_day_history, session_history, user_query):
+def process_message(login_days_history, current_day_history, session_history, user_query):
     # Check for serious concerns in the user query
     if is_serious_concern(user_query):
         prompt = (
-            "It sounds like you might be going through a tough time. It's important to talk to someone who can help. "
-            "As your mental healthcare assistant, I recommend contacting these resources:\n"
+            "It seems like you might be facing a tough time. It's important to connect with someone who can help. "
+            "Here are some resources for immediate assistance:\n"
             f"{healthcare_resources}\n"
-            "I'm here to support you and offer guidance as well. Feel free to continue talking to me."
+            "I'm here for support as well, so feel free to keep talking to me."
         )
         return prompt
 
     # Generate a response using the user query and histories with appropriate weighting
     prompt = (
-        f"You are a mental healthcare assistant. Your role is to provide support to the user, listen carefully, "
-        f"and offer empathetic responses. Make sure to give more weight to the user's query first, "
-        f"followed by the session history, current day history, and then the last 15 days' history.\n"
+        f"You are a mental healthcare assistant. Offer empathetic support to the user, actively listening to their needs. "
+        f"Prioritize the user’s current query, followed by session history, today's history, and finally the last 14 login days' history, which includes the associated dates.\n"
         f"User Query: {user_query}\n"
         f"Session History: {session_history}\n"
         f"Current Day History: {current_day_history}\n"
-        f"Last 15 Days History: {last_15_days_history}\n"
+        f"Last 14 Login Days History (with dates): {login_days_history}\n"
         f"Chatbot:"
     )
 
@@ -58,6 +57,6 @@ def process_message(last_15_days_history, current_day_history, session_history, 
     return response.text
 
 # Exportable function
-def main(last_15_days_history, current_day_history, session_history, user_query):
-    return process_message(last_15_days_history, current_day_history, session_history, user_query)
+def main(login_days_history, current_day_history, session_history, user_query):
+    return process_message(login_days_history, current_day_history, session_history, user_query)
 
