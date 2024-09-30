@@ -56,15 +56,15 @@ function Login() {
         }
         try {
             setSubmitted(true);
-            // const response = await axios.post("http://localhost:8000/user/login", loginData);
-            // const userDetails = await axios.get(`http://localhost:8000/user/login/${loginData.email}`);
-            // if(userDetails.status === 200){
-            //     localStorage.setItem('userDetails', JSON.stringify(userDetails.data));
-            // }
+            const response = await axios.post("http://localhost:5000/login", loginData);
+            if(response.status === 200){
+                localStorage.setItem('userDetails', JSON.stringify(response.data));
 
-            setTimeout(() => {
-                navigate('/chatbot');
-            }, 2000); // Delay of 3000ms (3 seconds)   
+                setTimeout(() => {
+                    navigate('/');        
+                    window.location.reload();  
+                }, 1000);  // Delay for a smooth transition
+            }
         } 
         catch (error) {
             console.log(error);    

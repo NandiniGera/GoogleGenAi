@@ -15,7 +15,7 @@ from summarizer import summarize_session_history
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app,resources={r"/*": {"origins": "*"}})
 
 # MongoDB connection
 mongo_uri = os.getenv('MONGO_URI')

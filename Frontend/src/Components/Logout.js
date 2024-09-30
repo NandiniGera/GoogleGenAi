@@ -17,7 +17,8 @@ function Logout() {
             localStorage.removeItem("chatMessages");
             setTimeout(() => {
                 navigate('/'); // Navigate to the homepage after a delay
-            }, 2000); // Delay of 3000ms (3 seconds)
+                window.location.reload();  
+            }, 1000); // Delay of 3000ms (3 seconds)
 
         } 
         catch (error) {
