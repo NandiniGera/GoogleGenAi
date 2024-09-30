@@ -6,15 +6,14 @@ import { Alert } from "antd";
 const validator = require('validator');
 
 function Login() {
-    const [incorrectField, setIncorrectFieldAlert] = useState(false);
-    const [emptyField, setEmptyFieldAlert] = useState(false);
+    const [incorrectFieldAlert, setIncorrectFieldAlert] = useState(false);
+    const [emptyFieldAlert, setEmptyFieldAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [loginData, setLoginData] = useState({
         email: "",
         password : ""
     });
-    const [userDetails, setUserDetails] = useState()
     const navigate = useNavigate();
 
     // In this ...loginData in it, it creates a deep copy of previous filled data and then add the value correspos
@@ -26,10 +25,10 @@ function Login() {
             [name] : value
         } 
         setLoginData(newData);
-        if (emptyField) {
+        if (emptyFieldAlert) {
             setEmptyFieldAlert(false);
         }
-        if (incorrectField) {
+        if (incorrectFieldAlert) {
             setIncorrectFieldAlert(false);
         }
         if (alertMessage) {
@@ -58,11 +57,12 @@ function Login() {
             setSubmitted(true);
             const response = await axios.post("http://localhost:5000/login", loginData);
             if(response.status === 200){
-                localStorage.setItem('userDetails', JSON.stringify(response.data));
-
+                localStorage.setItem('userDetails', JSON.stringify(response.data.user));
+                
                 setTimeout(() => {
-                    navigate('/');        
+                    navigate('/');     
                     window.location.reload();  
+                       
                 }, 1000);  // Delay for a smooth transition
             }
         } 
@@ -78,8 +78,8 @@ function Login() {
             <div className='form-container'>
                 <h1 className='form-title'>Employee Login form</h1>
                 <form className='form'>
-                    <input name='email' type='email' value= {loginData.email} placeholder='Enter your Email' onChange={handleLoginChange} className='form-input'  />
-                    <input name = 'password' type='password' placeholder='Enter your password' value={loginData.password}  onChange={handleLoginChange} className='form-input' />
+                    <input name='email' type='email' value= {loginData.email} placeholder='Enter your Email' onChange={handleLoginChange} className='form-input' required  />
+                    <input name = 'password' type='password' placeholder='Enter your password' value={loginData.password}  onChange={handleLoginChange} className='form-input' required />
                     <button type='submit' onClick={handleLoginSubmit} className='form-button'>Login</button>
                 </form>
 
@@ -91,8 +91,8 @@ function Login() {
                         </div>
                     </div>
                 )}
-                {incorrectField && <Alert message = {alertMessage} type="error" />} 
-                {emptyField && <Alert message = {alertMessage} type="warning" />} 
+                {incorrectFieldAlert && <Alert message = {alertMessage} type="error" />} 
+                {emptyFieldAlert && <Alert message = {alertMessage} type="warning" />} 
             </div>
         </div>
     );

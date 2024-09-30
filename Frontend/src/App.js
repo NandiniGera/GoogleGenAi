@@ -7,6 +7,8 @@ import SignUp from './Components/SignUp';
 import Navbar from './Components/NavBar';
 import Chatbot from './Components/Chatbot/Chat';
 import Logout from './Components/Logout';
+import DiaryForm from './Components/Diary';
+import RAG from './Components/Rag_Chatbot/Rag';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path='/logout' element = {<Logout/>}/>
           <Route path='/signup' element = {<SignUp/>}/>
           <Route path='/chatbot' element = {<Chatbot/>}/>
+          <Route path='/diary' element = {<DiaryForm/>}/>
+          <Route path='/rag' element = {<RAG/>}/>
         </Routes>
       </BrowserRouter>
   );

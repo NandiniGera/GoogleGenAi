@@ -20,8 +20,12 @@ function Navbar() {
             </div>
             <div className="custom-nav-right">
                 <ul className="custom-nav-links">
-                    <li><Link to="/chatbot">Chatbot</Link></li>
-                    <li><Link to="/diary">User Diary</Link></li>
+                    {logOut && 
+                    <>
+                        <li><Link to="/chatbot">Chatbot</Link></li>
+                        <li><Link to="/rag">RAG</Link></li>
+                        <li><Link to="/diary">User Diary</Link></li>
+                    </>}
                     { !logOut &&
                     <>
                         <li><Link to="/login">Login</Link></li>

@@ -1,0 +1,45 @@
+
+.Main-Card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding-bottom: 5%;
+    background-color: #fdfafa;
+}
+
+.Main-Card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1400px;
+    width: 100%;
+    /* Ensure the container takes full width */
+    margin: 5px auto;
+}
+
+.carousel-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.Main-Card-container>div {
+    flex: 1 0 30%;
+    /* Adjust the flex basis to 30% to fit three cards in one row */
+    margin: 10px;
+    min-width: 280px;
+    /* Ensure a minimum width for responsiveness */
+    max-width: 30%;
+    /* Ensure a maximum width to fit three cards in one row */
+    box-sizing: border-box;
+}
+
+.Main-Card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
