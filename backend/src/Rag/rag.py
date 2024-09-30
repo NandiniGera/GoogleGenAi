@@ -26,10 +26,11 @@ llm = ChatGoogleGenerativeAI(api_key=api_key,model="gemini-1.5-flash")
 
 
 
-vectorstore = get_vector_db('2')
 
-def get_ans(question, session_id: str):
-    global vectorstore
+def get_ans(question,book_code,session_id: str):
+    # return store[session_id]
+    vectorstore = get_vector_db(book_code)
+
 
     retriever = vectorstore.as_retriever()
 
@@ -74,6 +75,8 @@ def get_ans(question, session_id: str):
             store[session_id] = ChatMessageHistory()
         return store[session_id]
     
+    
+
     conversational_rag_chain = RunnableWithMessageHistory(
         rag_chain,
         get_session_history,
@@ -81,17 +84,24 @@ def get_ans(question, session_id: str):
         history_messages_key="chat_history",
         output_messages_key="answer",
     )
+
     
-    return conversational_rag_chain
-
-question = "how do i stop procastinating and start working ?"
-session_id = "10"
-
-conversational_rag_chain = get_ans(question, session_id)
-
-result = conversational_rag_chain.invoke(
+    # invoke_chain = conversational_rag_chain(question,session_id)
+    result = conversational_rag_chain.invoke(
     {"input": question},
     config={"configurable": {"session_id": session_id}}
-)
+    )
+    # return store[session_id]
+    return result['answer']
 
-print(result['answer'])
+    
+
+
+# question = "how do i stop procastinating and start working ?"
+# session_id = "10"
+
+# conversational_rag_chain = get_ans(question, session_id)
+
+# print(get_ans("what was krishna thought about violence", "1", "1"))
+# print(get_ans("what did he advice arjun to do", "1", "1"))
+
