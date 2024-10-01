@@ -17,7 +17,8 @@ store = {}
 load_dotenv()
 
 # Access the API key
-api_key = os.getenv('API_KEY')
+api_key = os.getenv('GOOGLE_API_KEY')
+
 
 # if "GOOGLE_API_KEY" not in os.environ:
 #     os.environ["GOOGLE_API_KEY"] = getpass.getpass("api-key")
@@ -99,6 +100,6 @@ def get_ans(question,book_code,session_id: str):
 
 
 
-# print(get_ans("what are the rules for changing my habits?", "2", "1"))
+print(get_ans("what are the rules for changing my habits?", "2", "1"))
 # print(get_ans("what did krishna advice arjun to do", "1", "1"))
 

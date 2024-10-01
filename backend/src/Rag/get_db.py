@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Access the API key
-api_key = os.getenv('API_KEY')
+api_key = os.getenv('GOOGLE_API_KEY')
+# print(api_key)
 
 # if "GOOGLE_API_KEY" not in os.environ:
 #     os.environ["GOOGLE_API_KEY"] = getpass.getpass("api_key")
