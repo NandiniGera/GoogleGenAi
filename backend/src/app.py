@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 import os
 from summarizer import summarize_session_history
 from chatbot import process_message
+from Rag import rag
+
 
 
 # Load environment variables
@@ -234,6 +236,29 @@ def user_chat_response():
         ]
         
     bot_response = process_message(history_except_last, last_entry_with_date, session_history, user_query)
+    
+    return jsonify({"bot_response": bot_response, "timestamp": current_timestamp}), 200
+
+
+
+@app.route("/user_book_chat_response", methods=['POST'])
+def user_book_chat_response():
+    data = request.json
+    user_email = data.get('email')  # Expecting user email from the request
+    user_question = data.get('user_question') 
+    session_id = data.get('session_id') # session_id: str
+    book_code = data.get('book_code')
+
+    if not user_email or not user_question or not session_id or not book_code:
+        return jsonify({"msg": "Email, user_question, session_id and book_code are required"}), 400
+
+    if not isinstance(session_id, str):
+        return jsonify({'error': 'session_id must be a string'}), 400
+    
+    # Get the current timestamp
+    current_timestamp = datetime.now()
+        
+    bot_response = rag.get_ans(user_question, book_code, session_id)
     
     return jsonify({"bot_response": bot_response, "timestamp": current_timestamp}), 200
 
