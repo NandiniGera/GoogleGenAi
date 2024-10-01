@@ -11,7 +11,12 @@ from dotenv import load_dotenv
 import os
 from summarizer import summarize_session_history
 from chatbot import process_message
-from Rag import rag
+
+import sys
+sys.path.append('./Rag')
+
+from Rag.rag import get_ans
+
 
 
 

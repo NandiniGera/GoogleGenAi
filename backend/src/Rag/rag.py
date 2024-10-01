@@ -100,6 +100,6 @@ def get_ans(question,book_code,session_id: str):
 
 
 
-print(get_ans("what are the rules for changing my habits?", "2", "1"))
+# print(get_ans("what are the rules for changing my habits?", "2", "1"))
 # print(get_ans("what did krishna advice arjun to do", "1", "1"))
 
