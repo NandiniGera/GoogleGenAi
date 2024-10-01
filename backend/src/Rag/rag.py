@@ -17,7 +17,7 @@ store = {}
 load_dotenv()
 
 # Access the API key
-api_key = os.getenv('GOOGLE_API_KEY')
+api_key = os.getenv('API_KEY')
 
 # if "GOOGLE_API_KEY" not in os.environ:
 #     os.environ["GOOGLE_API_KEY"] = getpass.getpass("api-key")
@@ -51,10 +51,10 @@ def get_ans(question,book_code,session_id: str):
         llm, retriever, contextualize_q_prompt
     )
 
-    qa_system_prompt = """You are an mental heath assistant. \
-    Use the following pieces of retrieved context to answer the question in an understanding way. \
-    If you don't know the answer, try formulating on your own. \
-    If a concept is found, explain it in detail to the student.\
+    qa_system_prompt = """You are a mental heath assistant, a book expert and talking to students. \
+    Use the following pieces of retrieved context from the book to answer the question in an understanding way. \
+    If the context does not contain the answer, acknowledge it, and try to formulate your own answer. \
+    If a concept is found, explain it in brief to the student.\
 
     {context}"""
     
@@ -97,11 +97,8 @@ def get_ans(question,book_code,session_id: str):
     
 
 
-# question = "how do i stop procastinating and start working ?"
-# session_id = "10"
 
-# conversational_rag_chain = get_ans(question, session_id)
 
-# print(get_ans("what was krishna thought about violence", "1", "1"))
-# print(get_ans("what did he advice arjun to do", "1", "1"))
+# print(get_ans("what are the rules for changing my habits?", "2", "1"))
+# print(get_ans("what did krishna advice arjun to do", "1", "1"))
 
