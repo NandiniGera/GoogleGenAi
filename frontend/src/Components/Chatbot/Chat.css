@@ -1,0 +1,119 @@
+/* Ensure full width and height for the page */
+html, body {
+    height: 70%;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f1f1f1;
+  }
+  
+  /* Full-screen container with flexbox */
+  .chatbot-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 93vh;
+    width: 100vw;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  /* Chat window that takes most of the space and is scrollable */
+  .chat-window {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Message styles for user and bot */
+  .message {
+    margin: 10px 0;
+    padding: 12px 15px;
+    border-radius: 20px;
+    max-width: 70%;
+    font-size: 16px;
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+  
+  .user-message {
+    background-color: #007bff;
+    color: #ffffff;
+    align-self: flex-end;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+  }
+  
+  .bot-message {
+    background-color: #e4e6eb;
+    color: #333;
+    align-self: flex-start;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Input container that stays at the bottom */
+  .input-container {
+    display: flex;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+  }
+  
+  /* Text area to input messages */
+  textarea {
+    flex-grow: 1;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    outline: none;
+    resize: none;
+    max-height: 120px;
+    transition: border 0.2s, height 0.2s;
+  }
+  
+  textarea:focus {
+    border: 1px solid #007bff;
+  }
+  
+  /* Adjust the height of the text area as the text grows */
+  textarea:focus-visible {
+    height: auto;
+  }
+  
+  /* Send button styling */
+  .chat-button {
+    padding: 15px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+  }
+  
+  .chat-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Scrollbar customization for the chat window */
+  .chat-window::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .chat-window::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .chat-window::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 8px;
+  }
+  
+  .chat-window::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  

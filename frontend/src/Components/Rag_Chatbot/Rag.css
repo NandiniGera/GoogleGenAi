@@ -1,0 +1,33 @@
+/* Wrapper for full-height layout */
+.rag-wrapper {
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    background-color: #f0f0f0; /* Light background for better visual */
+    margin: 0; /* Remove default margin */
+}
+
+.main-rag-container {
+    width: 80%;
+    max-width: 900px;
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.intro-rag-container {
+    margin-bottom: 20px;
+}
+
+.intro-rag-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.intro-rag-container p {
+    font-size: 1.2rem;
+    color: #555;
+}
