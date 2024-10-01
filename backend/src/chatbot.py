@@ -38,25 +38,19 @@ def check_serious_concern_with_llm(user_query):
     return 'yes' in response.text.lower()
 
 def process_message(login_days_history, current_day_history, session_history, user_query):
-    # Check for serious concerns using the LLM
-    if check_serious_concern_with_llm(user_query):
-        prompt = (
-            "It seems like you might be facing a tough time. It's important to connect with someone who can help. "
-            "Here are some resources for immediate assistance:\n"
-            f"{healthcare_resources}\n"
-            "I'm here for support as well, so feel free to keep talking to me."
-        )
-        return prompt
-
-    # Generate a response using the user query and histories with appropriate weighting
+    # Unified prompt to check if the query is related to mental health and generate an appropriate response
     prompt = (
-        f"You are a mental healthcare assistant. Offer empathetic support to the user, actively listening to their needs. "
-        f"Prioritize the user’s current query, followed by session history, today's history, and finally the last 14 login days' history, which includes the associated dates.\n"
+        "You are a mental healthcare assistant. Your task is to respond only to queries that are related to mental health issues, "
+        "such as stress, anxiety, depression, emotional distress, self-harm, suicide, therapy, or general mental well-being. "
+        "If the user's query is not related to mental health, respond with the following message: "
+        "'It seems like your query may not be related to mental health. Please feel free to ask questions related to mental well-being, and I’ll do my best to help.'\n\n"
+        "If the user's query is related to mental health, check if it's a serious concern like thoughts of self-harm or suicide. "
+        "If so, respond with relevant healthcare resources and offer support. Otherwise, provide an empathetic and supportive response based on the user's query and their past history.\n\n"
         f"User Query: {user_query}\n"
         f"Session History: {session_history}\n"
         f"Current Day History: {current_day_history}\n"
         f"Last 14 Login Days History (with dates): {login_days_history}\n"
-        f"Chatbot:"
+        "Chatbot Response:"
     )
 
     response = model.generate_content(prompt)
@@ -65,5 +59,6 @@ def process_message(login_days_history, current_day_history, session_history, us
 # Exportable function
 def main(login_days_history, current_day_history, session_history, user_query):
     return process_message(login_days_history, current_day_history, session_history, user_query)
+
 
 
