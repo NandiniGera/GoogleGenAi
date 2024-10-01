@@ -245,33 +245,65 @@ def logout():
     user_email = data.get('email')
     conversation = data.get('conversation')
 
-    if not user_email or not conversation:
-        return jsonify({"msg": "Email and conversation are required"}), 400
+    if not user_email:
+        return jsonify({"msg": "Email is required"}), 400
 
-    # Call the LLM model to generate summary (replace this with your model call)
+    if not conversation :
+        return jsonify({"msg": "Logout successful, no conversation provided"}), 200
+    
+    # Call the LLM model to generate summary (replace this with your actual model call)
     summary = summarize_session_history(conversation)
 
-    # Store the summary
-    timestamp = datetime.now()
-    summary_data = {
-        "email": user_email,
-        "timestamp": timestamp,
-        "summary": summary
+    # Get the current timestamp
+    current_timestamp = datetime.now()
+    current_date = current_timestamp.date()
+
+    # Create a new summary entry with timestamp
+    new_summary_entry = {
+        "summary": summary,
+        "timestamp": current_timestamp
     }
-    
+
     # Check if the user already has a summary for today
-    existing_summary = summary_collection.find_one({"email": user_email, "timestamp": {"$gte": timestamp.replace(hour=0, minute=0, second=0, microsecond=0)}})
+    existing_summary = summary_collection.find_one({"email": user_email})
 
     if existing_summary:
-        # If a summary exists for today, concatenate the new summary
-        updated_summary = existing_summary['summary'] + " " + summary
-        summary_collection.update_one(
-            {"_id": existing_summary["_id"]},
-            {"$set": {"summary": updated_summary}}
-        )
+        existing_summaries = existing_summary.get('summaries', [])
+        if existing_summaries:
+            last_entry = existing_summaries[-1]  # Get the last summary entry
+
+            # Check if the last summary is from the same day
+            if last_entry['timestamp'].date() == current_date:
+                # Concatenate the new summary to the last entry's summary
+                last_entry['summary'] += " " + summary
+                # Update the last entry's timestamp to the current one
+                last_entry['timestamp'] = current_timestamp
+                existing_summaries[-1] = last_entry  # Update the last entry in the array
+            else:
+                # If it's a different day, append the new summary entry
+                existing_summaries.append(new_summary_entry)
+
+            # Limit the summaries to the most recent 15 entries
+            if len(existing_summaries) > 15:
+                existing_summaries.pop(0)  # Remove the oldest summary
+
+            # Update the user's document with the updated summaries
+            summary_collection.update_one(
+                {"email": user_email},
+                {"$set": {"summaries": existing_summaries}}
+            )
+        else:
+            # If no previous summaries exist, create a new list with the new summary
+            summary_collection.update_one(
+                {"email": user_email},
+                {"$set": {"summaries": [new_summary_entry]}}
+            )
     else:
-        # If no summary exists for today, insert a new one
-        summary_collection.insert_one(summary_data)
+        # If no user record exists, create a new document with the first summary entry
+        summary_collection.insert_one({
+            "email": user_email,
+            "summaries": [new_summary_entry]
+        })
 
     return jsonify({"msg": "Logout successful, summary stored"}), 200
 

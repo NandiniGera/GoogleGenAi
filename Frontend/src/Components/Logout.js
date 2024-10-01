@@ -49,7 +49,6 @@ function Logout() {
     const handleLogOut = async (e) => {
         e.preventDefault();
         try {
-            debugger;
             const chatPairs = convertChatDataToPairs(userChatMessages);
             const logOutData = {'email' : userEmail, 'conversation' : chatPairs};
             const response = await axios.post("http://localhost:5000/logout", logOutData);
@@ -62,7 +61,7 @@ function Logout() {
                 setTimeout(() => {
                     navigate('/');      
                     window.location.reload();     
-                }, 1000);  // Delay for a smooth transition
+                }, 100);  // Delay for a smooth transition
             }
         } 
         catch (error) {
