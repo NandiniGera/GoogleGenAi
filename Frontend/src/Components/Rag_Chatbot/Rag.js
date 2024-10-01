@@ -1,5 +1,5 @@
 import React from "react";
-import MainRagCard from "./location/MainRagCard";
+import MainRagCard from "./RagCard/MainRagCard";
 import './Rag.css'
 function RAG(){
     return(

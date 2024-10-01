@@ -23,20 +23,23 @@ healthcare_resources = (
     "10. Women Helpline: 181 (Support for women facing abuse or health issues)\n"
 )
 
-def is_serious_concern(message):
-    serious_keywords = [
-        'suicide', 'harm', 'self-harm', 'depression', 'anxiety', 'overwhelmed', 'hopeless', 
-        'panic', 'panic attack', 'fear', 'loneliness', 'trauma', 'abuse', 'grief', 
-        'sadness', 'worthless', 'isolation', 'danger', 'dangerous thoughts', 'anger', 
-        'bipolar', 'schizophrenia', 'eating disorder', 'bulimia', 'anorexia', 'PTSD', 
-        'self-injury', 'cutting', 'distress', 'crying', 'helpless', 'nightmares', 
-        'substance abuse', 'alcoholism', 'drug addiction', 'withdrawal', 'paranoia'
-    ]
-    return any(keyword in message.lower() for keyword in serious_keywords)
+def check_serious_concern_with_llm(user_query):
+    # Use the LLM to determine if the message indicates serious concerns
+    prompt = (
+        "You are a mental healthcare assistant. Based on the following user query, determine if the user may be experiencing a serious mental health concern, "
+        "such as thoughts of self-harm, suicide, depression, or other severe emotional distress. "
+        "Respond with 'yes' if it's serious and 'no' if it's not.\n"
+        f"User Query: {user_query}\n"
+        "Is this a serious mental health concern?"
+        "Answer: YES or NO."
+    )
+    
+    response = model.generate_content(prompt)
+    return 'yes' in response.text.lower()
 
 def process_message(login_days_history, current_day_history, session_history, user_query):
-    # Check for serious concerns in the user query
-    if is_serious_concern(user_query):
+    # Check for serious concerns using the LLM
+    if check_serious_concern_with_llm(user_query):
         prompt = (
             "It seems like you might be facing a tough time. It's important to connect with someone who can help. "
             "Here are some resources for immediate assistance:\n"
@@ -62,4 +65,5 @@ def process_message(login_days_history, current_day_history, session_history, us
 # Exportable function
 def main(login_days_history, current_day_history, session_history, user_query):
     return process_message(login_days_history, current_day_history, session_history, user_query)
+
 

@@ -3,9 +3,7 @@ import './Chat.css';
 import axios from 'axios';
 import { Alert } from "antd";
 
-
 function Chatbot() {
-  // Initial state with messages from local storage if available
   const [messages, setMessages] = useState(() => {
     const storedMessages = localStorage.getItem('chatMessages');
     return storedMessages ? JSON.parse(storedMessages) : [
@@ -14,21 +12,18 @@ function Chatbot() {
   });
   
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false); // For typing simulation
   const chatWindowRef = useRef(null);
   const [userChatMessages, setUserChatMessages] = useState([]);
   const [userEmail, setUserEmail] = useState('');
   const [emptyFieldAlert, setEmptyFieldAlert] = useState(false);
-
+  
   useEffect(() => {
     chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-
-    // Save messages to local storage whenever they change
     localStorage.setItem('chatMessages', JSON.stringify(messages));
   }, [messages]);
 
-
   useEffect(() => {
-        
     const userChat = JSON.parse(localStorage.getItem('chatMessages'));
     const user = JSON.parse(localStorage.getItem('userDetails'));
     if (userChat) {
@@ -49,7 +44,6 @@ function Chatbot() {
     let userMessage = "";
     let botMessage = "";
   
-    // Start looping from index 1 to skip the first message
     for (let i = 1; i < chatData.length; i++) {
         const entry = chatData[i];
         if (entry.sender === "user") {
@@ -75,6 +69,13 @@ function Chatbot() {
       const newMessages = [...messages, { sender: "user", text: input }];
       setMessages(newMessages);
       setInput('');
+      
+      // Show typing simulation
+      setIsTyping(true);
+
+      // Delay before sending request to the backend
+      await new Promise(resolve => setTimeout(resolve, 200)); //delay
+
       const chatPairs = convertChatDataToPairs(userChatMessages);
       const userChatData = {'email' : userEmail, 'user_query' : input,'session_history' : chatPairs};
       const response = await axios.post("http://localhost:5000/user_chat_response", userChatData);
@@ -84,9 +85,11 @@ function Chatbot() {
         botResponse = response.data.bot_response;
       }
 
+      // Remove typing and display bot response
+      setIsTyping(false);
       const updatedMessages = [
         ...newMessages, 
-        { sender: "bot", text: botResponse } // Bot response from a variable (in future, backend)
+        { sender: "bot", text: botResponse }
       ];
       setMessages(updatedMessages);
     }
@@ -97,8 +100,8 @@ function Chatbot() {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // Prevent default behavior (like new line)
-      handleSendMessage(); // Call the send message function
+      e.preventDefault();
+      handleSendMessage();
     }
   };
 
@@ -113,13 +116,18 @@ function Chatbot() {
             <p>{msg.text}</p>
           </div>
         ))}
+        {isTyping && (
+          <div className="message bot-message">
+            <p><i>Typing...</i></p> {/* Typing effect */}
+          </div>
+        )}
       </div>
-      {emptyFieldAlert && <Alert message = {"Please input a valid Mesage"} type="warning" />} 
+      {emptyFieldAlert && <Alert message={"Please input a valid Message"} type="warning" />} 
       <div className="input-container">
         <textarea
           value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown} // Add onKeyDown event
+          onChange={handleTextInputChange}
+          onKeyDown={handleKeyDown}
           placeholder="Type your message..."
           rows={1}
         />
