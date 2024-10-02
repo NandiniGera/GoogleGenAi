@@ -263,7 +263,7 @@ def user_book_chat_response():
     # Get the current timestamp
     current_timestamp = datetime.now()
         
-    bot_response = rag.get_ans(user_question, book_code, session_id)
+    bot_response = get_ans(user_question, book_code, session_id)
     
     return jsonify({"bot_response": bot_response, "timestamp": current_timestamp}), 200
 
