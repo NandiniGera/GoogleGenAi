@@ -225,17 +225,24 @@ def user_chat_response():
     current_timestamp = datetime.now()
     existing_summary = summary_collection.find_one({"email": user_email})
 
+    # Initialize history_except_last as an empty list
+    history_except_last = []
+
     if existing_summary:
         existing_summaries = existing_summary['summaries']
     
         last_entry = existing_summaries[-1]
         last_entry_date = last_entry['timestamp'].strftime('%Y-%m-%d') 
         last_entry_with_date = f"{last_entry_date}: {last_entry['summary']}" 
+        
         history_except_last = [
             f"{entry['timestamp'].strftime('%Y-%m-%d')}: {entry['summary']}"
             for entry in existing_summaries[:-1]  
         ]
         
+    else:
+        last_entry_with_date = ""  # Or some default value if needed
+
     bot_response = process_message(history_except_last, last_entry_with_date, session_history, user_query)
     
     return jsonify({"bot_response": bot_response, "timestamp": current_timestamp}), 200
