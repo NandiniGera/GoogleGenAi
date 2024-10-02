@@ -20,6 +20,7 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app,resources={r"/*": {"origins": "*"}})
+PORT = os.environ.get('PORT', 5000)
 
 # MongoDB connection
 mongo_uri = os.getenv('MONGO_URI')
@@ -377,4 +378,4 @@ def submit_answer():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=PORT, debug=True)
