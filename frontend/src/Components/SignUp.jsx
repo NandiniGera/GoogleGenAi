@@ -67,7 +67,7 @@ function SignUp() {
             const {ConfirmPassword, ...dataToSend} = signUpData;
             setSubmitted(true);
             debugger;
-            const response = await axios.post("http://localhost:5000/register", dataToSend);
+            const response = await axios.post("https://harmoni03.onrender.com/register", dataToSend);
             
             if(response.status === 201){
                 setTimeout(() => {

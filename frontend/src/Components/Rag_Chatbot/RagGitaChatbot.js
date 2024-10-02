@@ -47,7 +47,7 @@ function RagGitaChatbot() {
             debugger;
             
             const userRagChatData = {'email' : userEmail, 'user_question' : input, 'session_id' : userSessionId , 'book_code' : bookId};
-            const response = await axios.post("http://localhost:5000/user_book_chat_response", userRagChatData);
+            const response = await axios.post("https://harmoni03.onrender.com/user_book_chat_response", userRagChatData);
 
             let botResponse = '';
             if(response.status === 200){
