@@ -14,3 +14,11 @@ Werkzeug==3.0.4
 google-generativeai
 protobuf==4.25.5
 python-dotenv
+langchain
+langchain-google-genai
+langchain_community
+langchainhub
+langchain-chroma
+bs4
+langchain-text-splitters
+langchain_core
