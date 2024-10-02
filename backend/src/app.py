@@ -11,12 +11,7 @@ from dotenv import load_dotenv
 import os
 from summarizer import summarize_session_history
 from chatbot import process_message
-
-import sys
-sys.path.append('./Rag')
-
-from Rag.rag import get_ans
-
+from Rag.rag import get_ans 
 
 
 
@@ -264,7 +259,7 @@ def user_book_chat_response():
     current_timestamp = datetime.now()
         
     bot_response = get_ans(user_question, book_code, session_id)
-    
+    print(bot_response)
     return jsonify({"bot_response": bot_response, "timestamp": current_timestamp}), 200
 
 

@@ -10,7 +10,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
-
+# from Rag.back import create_rag_chain,invoke_rag_chain,get_session_history
 
 store = {}
 
@@ -34,6 +34,22 @@ def get_ans(question,book_code,session_id: str):
 
 
     retriever = vectorstore.as_retriever()
+# #     docs = retriever.invoke("what was arjuns dilemma?")
+# #     combined_content = " ".join([doc.page_content for doc in docs])
+
+# # # Print or use the combined content
+# #     return combined_content
+#     rag_chain = create_rag_chain(retriever)
+#     answer = invoke_rag_chain(rag_chain, question, session_id)
+
+#     # logging.debug(f"Answer generated for session {session_id}: {answer}")
+#     # logging.debug(f"Session Data After Processing: {get_session_data(session_id)}")
+    
+#     return answer
+
+
+
+
 
     contextualize_q_system_prompt = """Given a chat history and the latest user question \
     which might reference context in the chat history, formulate a standalone question \
@@ -52,10 +68,16 @@ def get_ans(question,book_code,session_id: str):
         llm, retriever, contextualize_q_prompt
     )
 
-    qa_system_prompt = """You are a mental heath assistant, a book expert and talking to students. \
-    Use the following pieces of retrieved context from the book to answer the question in an understanding way. \
-    If the context does not contain the answer, acknowledge it, and try to formulate your own answer. \
-    If a concept is found, explain it in brief to the student.\
+    # qa_system_prompt = """You are a mental heath assistant, and talking to students. \
+    # Use the following pieces of retrieved context from the book to answer the question in an understanding way. \
+    # If the context does not contain the answer, acknowledge it, and try to formulate your own answer. \
+    # If a concept is found, explain it in brief to the student.\
+    qa_system_prompt = """
+    You are an assistant for question-answering tasks. \
+    You are talking to students, who are chatting with you to seek mental support, and advice for their problems.\
+    Use the following pieces of retrieved context to answer the question to the best of your ability. \
+    If you don't know the answer, try to relate from the context provide, mix in your own knowledge and answer. \
+    Use three sentences maximum and keep the answer concise.\
 
     {context}"""
     
@@ -110,4 +132,13 @@ def get_ans(question,book_code,session_id: str):
 
 # print(get_ans("what are the rules for changing my habits?", "2", "1"))
 # print(get_ans("what did krishna advice arjun to do", "1", "1"))
+# print(get_ans("what was arjun's dillema ?", "1", "1"))
 
+# while True :
+#     question = input("enter your question")
+#     print(" ")
+
+#     if question == "end":
+#         break
+#     print(get_ans(question,"1","ee3bdbc8-294d-48b5-b1f7-3003acb3990b"))
+#     print(" ")
