@@ -78,7 +78,7 @@ function Chatbot() {
 
       const chatPairs = convertChatDataToPairs(userChatMessages);
       const userChatData = {'email' : userEmail, 'user_query' : input,'session_history' : chatPairs};
-      const response = await axios.post("http://localhost:5000/user_chat_response", userChatData);
+      const response = await axios.post("https://harmoni03.onrender.com/user_chat_response", userChatData);
 
       let botResponse = '';
       if(response.status === 200){

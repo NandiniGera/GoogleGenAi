@@ -37,7 +37,7 @@ function DiaryForm() {
         try {
             const userData = {'email' : userEmail, 'summary' : diaryEntry};
             setSubmitted(true);
-            const response = await axios.post("http://localhost:5000/add_summary", userData);
+            const response = await axios.post("https://harmoni03.onrender.com/add_summary", userData);
             if(response.status === 200){
 
                 setTimeout(() => {

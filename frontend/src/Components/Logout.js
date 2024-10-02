@@ -51,7 +51,7 @@ function Logout() {
         try {
             const chatPairs = convertChatDataToPairs(userChatMessages);
             const logOutData = {'email' : userEmail, 'conversation' : chatPairs};
-            const response = await axios.post("http://localhost:5000/logout", logOutData);
+            const response = await axios.post("https://harmoni03.onrender.com/logout", logOutData);
 
             if(response.status === 200){
 
